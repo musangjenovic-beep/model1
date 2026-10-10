@@ -4,8 +4,8 @@ from fastembed import TextEmbedding
 import numpy as np
 
 print("Chargement du modele d'embedding...")
-# Modele multilingue directement supporte par FastEmbed
-model = TextEmbedding(model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
+# Modele multilingue leger et supporte nativement par FastEmbed
+model = TextEmbedding(model_name="intfloat/multilingual-e5-small")
 print("Modele charge !")
 
 app = FastAPI(title="API de Similarite")
