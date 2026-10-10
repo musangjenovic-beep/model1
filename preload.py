@@ -1,14 +1,19 @@
-from fastembed import TextEmbedding
-from fastembed.common.model_description import PoolingType, ModelSource
+from huggingface_hub import hf_hub_download
+import os
 
-TextEmbedding.add_custom_model(
-    model="intfloat/multilingual-e5-small",
-    pooling=PoolingType.MEAN,
-    normalization=True,
-    sources=ModelSource(hf="intfloat/multilingual-e5-small"),
-    dim=384,
-    model_file="onnx/model.onnx",
+os.makedirs("/app/model_cache", exist_ok=True)
+
+# Modèle multilingual-e5-small en INT8 (~118 Mo)
+hf_hub_download(
+    repo_id="Xenova/multilingual-e5-small",
+    filename="onnx/model_quantized.onnx",
+    local_dir="/app/model_cache",
 )
 
-TextEmbedding(model_name="intfloat/multilingual-e5-small")
+hf_hub_download(
+    repo_id="Xenova/multilingual-e5-small",
+    filename="tokenizer.json",
+    local_dir="/app/model_cache",
+)
+
 print("Modele pre-telecharge avec succes")

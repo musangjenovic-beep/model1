@@ -1,4 +1,6 @@
 fastapi
 uvicorn
-fastembed
+onnxruntime
+tokenizers
 numpy
+huggingface_hub
