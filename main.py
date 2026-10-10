@@ -4,7 +4,6 @@ from fastembed import TextEmbedding
 from fastembed.common.model_description import PoolingType, ModelSource
 import numpy as np
 
-# Ajout du modèle personnalisé AVANT de l'instancier
 TextEmbedding.add_custom_model(
     model="intfloat/multilingual-e5-small",
     pooling=PoolingType.MEAN,
