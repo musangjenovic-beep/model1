@@ -1,10 +1,20 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastembed import TextEmbedding
+from fastembed.common.model_description import PoolingType, ModelSource
 import numpy as np
 
+# Ajout du modèle personnalisé AVANT de l'instancier
+TextEmbedding.add_custom_model(
+    model="intfloat/multilingual-e5-small",
+    pooling=PoolingType.MEAN,
+    normalization=True,
+    sources=ModelSource(hf="intfloat/multilingual-e5-small"),
+    dim=384,
+    model_file="onnx/model.onnx",
+)
+
 print("Chargement du modele d'embedding...")
-# Modele multilingue leger et supporte nativement par FastEmbed
 model = TextEmbedding(model_name="intfloat/multilingual-e5-small")
 print("Modele charge !")
 
