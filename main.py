@@ -1,18 +1,11 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastembed import TextEmbedding
-from fastembed.common.model_description import PoolingType, ModelSource
 import numpy as np
 
-TextEmbedding.add_custom_model(
-    model="intfloat/multilingual-e5-small",
-    pooling=PoolingType.MEAN,
-    normalization=True,
-    sources=ModelSource(hf="intfloat/multilingual-e5-small"),
-)
-
 print("Chargement du modele d'embedding...")
-model = TextEmbedding(model_name="intfloat/multilingual-e5-small")
+# Modele multilingue directement supporte par FastEmbed
+model = TextEmbedding(model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
 print("Modele charge !")
 
 app = FastAPI(title="API de Similarite")
