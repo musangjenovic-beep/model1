@@ -3,9 +3,10 @@ from pydantic import BaseModel
 import numpy as np
 import onnxruntime as ort
 from tokenizers import Tokenizer
+import os
 
-MODEL_PATH = "/app/model_cache/onnx/model_quantized.onnx"
-TOKENIZER_PATH = "/app/model_cache/tokenizer.json"
+MODEL_PATH = os.path.expanduser("~/model_cache/onnx/model_quantized.onnx")
+TOKENIZER_PATH = os.path.expanduser("~/model_cache/tokenizer.json")
 
 tokenizer = Tokenizer.from_file(TOKENIZER_PATH)
 tokenizer.enable_truncation(max_length=256)
@@ -29,13 +30,11 @@ class Comparaison(BaseModel):
 
 
 def get_embedding(text: str):
-    # E5 nécessite le préfixe "query: "
     encoded = tokenizer.encode("query: " + text)
     ort_inputs = {
         "input_ids": np.array([encoded.ids], dtype=np.int64),
         "attention_mask": np.array([encoded.attention_mask], dtype=np.int64),
     }
-    # Certains exports E5 n'ont pas token_type_ids
     input_names = [i.name for i in session.get_inputs()]
     if "token_type_ids" in input_names:
         ort_inputs["token_type_ids"] = np.array([encoded.type_ids], dtype=np.int64)
